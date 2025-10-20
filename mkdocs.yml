@@ -1,19 +1,48 @@
 site_name: Illumine
 site_url: https://benfreking123.github.io/IllumineWeb
 repo_url: https://github.com/benfreking123/IllumineWeb
-
 strict: false
 docs_dir: vault
 
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: pink
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark
+    - scheme: slate
+      primary: indigo
+      accent: pink
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light
+  font:
+    text: Inter
+    code: JetBrains Mono
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
+  features:
+    - navigation.instant
+    - navigation.footer
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Essays: Essays/
+  - Practice:
+    - Practice/Pathway.md
+  - Experiments: Experiments/
 
 plugins:
-  - search
+  - search:
+      separator: '[\s\-]+'
   - roamlinks
+  - awesome-pages 
   - exclude:
       glob:
-        # Hide these files/folders from the site build entirely
         - ".obsidian/**"
         - "Templates/**"
         - "Unorganized/**"
@@ -21,6 +50,7 @@ plugins:
         - "Drafts/**"
         - "README.md"
         - "test.md"
+  # - mermaid2   # optional; enable + pip install if you want diagrams
 
 markdown_extensions:
   - admonition
@@ -33,6 +63,20 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.tilde
   - pymdownx.caret
+  - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  social:
+    - icon: material/github
+      link: https://github.com/benfreking123
+    - icon: material/email
+      link: mailto:benjamin.freking@gmail.com
+  generator: false
+
+extra_css:
+  - assets/extra.css
