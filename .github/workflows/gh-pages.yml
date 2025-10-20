@@ -1,0 +1,46 @@
+name: Build and Deploy (MkDocs)
+
+on:
+  push:
+    branches: [ main ]   # change if your default branch isn't main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout website repo (IllumineWeb)
+        uses: actions/checkout@v4
+
+      - name: Checkout Obsidian vault (Illumine)
+        uses: actions/checkout@v4
+        with:
+          repository: benfreking123/Illumine
+          path: vault
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs & plugins
+        run: pip install -r requirements.txt
+
+      - name: Prepare docs/ from vault (exclude .obsidian)
+        run: |
+          rm -rf docs
+          rsync -av --exclude ".obsidian" --exclude ".git" vault/ docs/
+
+      - name: Build site
+        run: mkdocs build --strict --site-dir site
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site
+          publish_branch: gh-pages
