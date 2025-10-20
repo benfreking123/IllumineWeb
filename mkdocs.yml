@@ -1,32 +1,34 @@
 site_name: Illumine
-site_url: https://benfreking123.github.io/IllumineWeb/
-repo_url: https://github.com/benfreking123/Illumine
+site_url: https://benfreking123.github.io/IllumineWeb
+repo_url: https://github.com/benfreking123/IllumineWeb
+
+# Turn OFF strict so warnings don't fail your build
+strict: false
+
+# MkDocs will read markdown from the folder we checkout your vault into
+docs_dir: vault
+
 theme:
   name: material
-  features:
-    - navigation.instant
-    - navigation.tracking
-    - content.code.copy
-    - content.action.edit
+
 plugins:
   - search
-  - roamlinks  # converts [[Wiki Links]] to normal links
-  - git-revision-date-localized:
-      fallback_to_build_date: true
+  # Keep roamlinks to support [[WikiLinks]]. If you don't need it, remove it.
+  - roamlinks
+
 markdown_extensions:
   - admonition
   - footnotes
-  - attr_list
-  - def_list
   - toc:
       permalink: true
-  - pymdownx.superfences
-  - pymdownx.details
+  - pymdownx.betterem
+  - pymdownx.caret
   - pymdownx.critic
-  - pymdownx.highlight
+  - pymdownx.details
   - pymdownx.inlinehilite
-  - pymdownx.magiclink
   - pymdownx.keys
-
-# MkDocs will read Markdown from the ./docs folder (we'll copy your vault there)
-docs_dir: docs
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tilde
