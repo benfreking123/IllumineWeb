@@ -2,45 +2,54 @@ name: Build and Deploy (MkDocs)
 
 on:
   push:
-    branches: [ main ]   # change if your default branch isn't main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout website repo (IllumineWeb)
+      - name: Check out the website repo (IllumineWeb)
         uses: actions/checkout@v4
 
-      - name: Checkout Obsidian vault (Illumine)
+      - name: Pull the Obsidian vault (Illumine)
         uses: actions/checkout@v4
         with:
           repository: benfreking123/Illumine
           path: vault
+          # We only need files; history from this other repo won't help git-date anyway
           fetch-depth: 1
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
-      - name: Install MkDocs & plugins
-        run: pip install -r requirements.txt
-
-      - name: Prepare docs/ from vault (exclude .obsidian)
+      - name: Install MkDocs + Material + RoamLinks
         run: |
-          rm -rf docs
-          rsync -av --exclude ".obsidian" --exclude ".git" vault/ docs/
+          python -m pip install --upgrade pip
+          pip install mkdocs-material mkdocs-roamlinks-plugin
 
       - name: Build site
-        run: mkdocs build --strict --site-dir site
+        run: mkdocs build --no-strict
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: site
-          publish_branch: gh-pages
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
