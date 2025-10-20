@@ -31,10 +31,10 @@ theme:
 
 nav:
   - Home: index.md
+  - Aspects: Aspects/
+  - Affordances: Affordances/
+  - Focuses: Focuses/
   - Essays: Essays/
-  - Practice:
-    - Practice/Pathway.md
-  - Experiments: Experiments/
 
 plugins:
   - search:
