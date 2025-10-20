@@ -2,10 +2,7 @@ site_name: Illumine
 site_url: https://benfreking123.github.io/IllumineWeb
 repo_url: https://github.com/benfreking123/IllumineWeb
 
-# Turn OFF strict so warnings don't fail your build
 strict: false
-
-# MkDocs will read markdown from the folder we checkout your vault into
 docs_dir: vault
 
 theme:
@@ -13,22 +10,29 @@ theme:
 
 plugins:
   - search
-  # Keep roamlinks to support [[WikiLinks]]. If you don't need it, remove it.
   - roamlinks
+  - exclude:
+      glob:
+        # Hide these files/folders from the site build entirely
+        - ".obsidian/**"
+        - "Templates/**"
+        - "Unorganized/**"
+        - "Private/**"
+        - "Drafts/**"
+        - "README.md"
+        - "test.md"
 
 markdown_extensions:
   - admonition
   - footnotes
+  - attr_list
   - toc:
       permalink: true
-  - pymdownx.betterem
-  - pymdownx.caret
-  - pymdownx.critic
+  - pymdownx.superfences
   - pymdownx.details
   - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.magiclink
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
   - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tasklist:
+      custom_checkbox: true
