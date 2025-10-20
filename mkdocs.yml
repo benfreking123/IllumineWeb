@@ -40,7 +40,6 @@ plugins:
   - search:
       separator: '[\s\-]+'
   - roamlinks
-  - awesome-pages 
   - exclude:
       glob:
         - ".obsidian/**"
