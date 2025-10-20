@@ -33,7 +33,7 @@ jobs:
       - name: Install MkDocs + Material + RoamLinks
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs-material mkdocs-roamlinks-plugin
+          pip install mkdocs-material mkdocs-roamlinks-plugin mkdocs-exclude
 
       - name: Build site
         run: mkdocs build --no-strict
